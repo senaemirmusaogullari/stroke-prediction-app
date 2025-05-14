@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tahmin Sonucu - Sağlık Risk Tahmini</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="fade-in">
+
+  <div id="alertPlaceholder" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 2000; width: 90%; max-width: 500px;"></div>
+
+  <div class="container mt-5 text-center">
+    <h2 class="mb-4">Tahmin Sonucu</h2>
+
+    <div id="resultBox" class="p-4 rounded shadow bg-light mb-4">
+      <p class="text-muted">Sonuçlar yükleniyor...</p>
+    </div>
+
+    <div class="container mb-4">
+      <canvas id="riskChart" width="400" height="400" aria-label="İnme riski grafiği" role="img"></canvas>
+    </div>
+
+    <a href="index.html" class="btn btn-primary w-50">Ana Sayfaya Dön</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/alert.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const resultBox = document.getElementById("resultBox");
+      const ctx = document.getElementById("riskChart").getContext("2d");
+      const storedResult = localStorage.getItem("healthRiskResult");
+
+      if (!storedResult) {
+        showAlert("Tahmin sonucu bulunamadı!", "danger");
+        resultBox.innerHTML = "<p class='text-danger'>Sonuç bulunamadı.</p>";
+        return;
+      }
+
+      const data = JSON.parse(storedResult);
+      localStorage.removeItem("healthRiskResult");
+
+      const genderMap = { 0: "Kadın", 1: "Erkek" };
+      const genderLabel = genderMap[data.gender] || "Bilinmiyor";
+
+      // Sigara durumu one-hot kodlamadan belirleniyor
+      let smokingLabel = "Bilinmiyor";
+      if (data.smokingStatusSmokes === 1) smokingLabel = "İçiyor";
+      else if (data.smokingStatusNeverSmoked === 1) smokingLabel = "Hiç İçmedi";
+      else if (data.smokingStatusFormerlySmoked === 1) smokingLabel = "Eskiden İçiyordu";
+
+      // Risk yüzdesi belirle (eğer model bu değeri döndürmediyse stroke değerine göre hesapla)
+      const riskPercent = data.probability ? Math.round(data.probability * 100) : (data.stroke === 1 ? 100 : 0);
+      const strokeRisk = riskPercent >= 70 ? "⚠️ İnme riski yüksek!" : "✅ İnme riski düşük.";
+
+      resultBox.innerHTML = `
+        <p><strong>Yaş:</strong> ${data.age}</p>
+        <p><strong>Cinsiyet:</strong> ${genderLabel}</p>
+        <p><strong>Hipertansiyon:</strong> ${data.hypertension === 1 ? "Var" : "Yok"}</p>
+        <p><strong>BMI:</strong> ${data.bmi}</p>
+        <p><strong>Sigara Kullanımı:</strong> ${smokingLabel}</p>
+        <hr>
+        <h4 class="text-${riskPercent >= 70 ? 'danger' : 'success'}">${strokeRisk} (%${riskPercent})</h4>
+      `;
+
+      showAlert(
+        riskPercent >= 70
+          ? "⚠️ Yüksek inme riski tespit edildi! Doktorunuza başvurun."
+          : "✅ Düşük risk! Sağlığınıza dikkat etmeye devam edin.",
+        riskPercent >= 70 ? "danger" : "success",
+        5000
+      );
+
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["İnme Riski", "Düşük Risk"],
+          datasets: [
+            {
+              data: [riskPercent, 100 - riskPercent],
+              backgroundColor: ["#dc3545", "#198754"],
+              borderColor: ["#ffffff", "#ffffff"],
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      });
+    });
+  </script>
+</body>
+</html>

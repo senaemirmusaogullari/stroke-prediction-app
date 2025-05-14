@@ -1,0 +1,129 @@
+/* Genel Ayarlar */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #8e9eab, #eef2f3);
+  min-height: 100vh;
+  margin: 0;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sayfa Ortalaması */
+.container {
+  margin-top: 60px;
+  padding: 30px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Başlıklar */
+h1, h2, h3, h4 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Login ve Kayıt Kartı */
+.card {
+  border: none;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Elemanları */
+input.form-control, select.form-select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Butonlar */
+.btn-primary, .btn-danger, .btn-success {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover, .btn-danger:hover, .btn-success:hover {
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  transform: scale(1.05);
+}
+
+/* "Kayıt Ol" Linki */
+.btn-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #2575fc;
+}
+
+.btn-link:hover {
+  color: #6a11cb;
+  text-decoration: underline;
+}
+
+/* Sonuç Kutusu */
+.result-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Grafik */
+#riskChart {
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+/* Yükleniyor Animasyonu */
+#loading {
+  display: none;
+  margin-top: 20px;
+}
+
+#loading i {
+  color: #2575fc;
+  font-size: 3rem;
+}
+
+/* Sayfa Açılış Animasyonu */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Ayarları */
+@media (max-width: 600px) {
+  .container, .card {
+    padding: 20px 15px;
+    margin: 50px auto;
+  }
+
+  button, .btn-primary, .btn-danger, .btn-success {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+}

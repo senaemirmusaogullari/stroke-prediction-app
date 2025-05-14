@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil - Sağlık Risk Tahmini</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="fade-in">
+
+  <!-- ✅ Alert alanı -->
+  <div id="alertPlaceholder" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 2000; width: 90%; max-width: 500px;"></div>
+
+  <div class="container text-center mt-5">
+    <h2 class="mb-4">Profil Bilgileri</h2>
+
+    <!-- Kullanıcı Bilgileri -->
+    <div id="profileBox" class="p-4 rounded shadow bg-light mb-4">
+      <p><strong>Kullanıcı Adı:</strong> <span id="profileUsername">Yükleniyor...</span></p>
+      <p><strong>E-posta:</strong> <span id="profileEmail">Yükleniyor...</span></p>
+    </div>
+
+    <!-- Ana Sayfaya Dön -->
+    <div class="d-flex flex-column align-items-center">
+      <a href="index.html" class="btn btn-primary mb-3 w-50">Ana Sayfaya Dön</a>
+      <button id="logoutBtn" class="btn btn-danger w-50">Çıkış Yap</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/alert.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const username = localStorage.getItem("username");
+      const email = localStorage.getItem("email");
+
+      const usernameSpan = document.getElementById("profileUsername");
+      const emailSpan = document.getElementById("profileEmail");
+
+      if (!username) {
+        showAlert("Lütfen giriş yapınız.", "warning");
+        window.location.href = "login.html";
+        return;
+      }
+
+      usernameSpan.textContent = username;
+      emailSpan.textContent = email ? email : "Henüz belirtilmedi";
+
+      // Çıkış işlemi
+      document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.clear();
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+
+</body>
+</html>

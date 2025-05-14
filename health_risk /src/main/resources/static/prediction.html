@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sağlık Riski Tahmini</title>
+
+  <!-- Bootstrap ve stil -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="fade-in">
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="p-4 rounded shadow bg-light w-100" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">Sağlık Riski Tahmini</h2>
+    <form id="healthForm" class="needs-validation" novalidate>
+
+      <div class="mb-3">
+        <input type="number" id="age" class="form-control" placeholder="Yaş" required />
+      </div>
+
+      <div class="mb-3">
+        <input type="number" step="0.1" id="bmi" class="form-control" placeholder="BMI" required />
+      </div>
+
+      <div class="mb-3">
+        <input type="number" step="0.1" id="avg_glucose_level" class="form-control" placeholder="Ortalama Glikoz Seviyesi" required />
+      </div>
+
+      <div class="mb-3">
+        <select id="gender" class="form-select" required>
+          <option value="">Cinsiyet Seçin</option>
+          <option value="0">Kadın</option>
+          <option value="1">Erkek</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <select id="hypertension" class="form-select" required>
+          <option value="">Yüksek Tansiyon?</option>
+          <option value="1">Evet</option>
+          <option value="0">Hayır</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <select id="heart_disease" class="form-select" required>
+          <option value="">Kalp Hastalığı?</option>
+          <option value="1">Evet</option>
+          <option value="0">Hayır</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <select id="ever_married" class="form-select" required>
+          <option value="">Evli mi?</option>
+          <option value="1">Evet</option>
+          <option value="0">Hayır</option>
+        </select>
+      </div>
+
+      <!-- One-hot işaretleme: work_type -->
+      <div class="mb-3">
+        <select id="work_type" class="form-select" required>
+          <option value="">Meslek Türü</option>
+          <option value="Govt_job">Devlet</option>
+          <option value="Never_worked">Hiç Çalışmadı</option>
+          <option value="Private">Özel</option>
+          <option value="Self_employed">Serbest</option>
+          <option value="Children">Çocuk</option>
+        </select>
+      </div>
+
+      <!-- One-hot işaretleme: smoking_status -->
+      <div class="mb-3">
+        <select id="smoking_status" class="form-select" required>
+          <option value="">Sigara Durumu</option>
+          <option value="formerly_smoked">Daha Önce İçmiş</option>
+          <option value="never_smoked">Hiç İçmemiş</option>
+          <option value="smokes">İçiyor</option>
+          <option value="unknown">Bilinmiyor</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <select id="residence_type" class="form-select" required>
+          <option value="">Yerleşim Tipi</option>
+          <option value="0">Kırsal</option>
+          <option value="1">Şehir</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-success w-100">Tahmin Yap</button>
+    </form>
+    <div class="text-center mt-3">
+      <button id="logoutBtn" class="btn btn-outline-danger w-100">Çıkış Yap</button>
+    </div>
+    <div id="loading" class="text-center mt-3" style="display:none;">Tahmin yapılıyor...</div>
+  </div>
+</div>
+
+<script src="js/prediction.js"></script>
+<script src="js/alert.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
